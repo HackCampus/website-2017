@@ -1,0 +1,17 @@
+{
+  "name": "hackcampus-website",
+  "version": "1.0.0",
+  "description": "HackCampus website",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HackCampus/website.git"
+  },
+  "author": "harry lachenmayer <harry@hackcampus.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HackCampus/website/issues"
+  },
+  "homepage": "https://hackcampus.io/"
+}

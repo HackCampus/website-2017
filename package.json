@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "HackCampus website",
   "scripts": {
+    "develop": "./node_modules/.bin/gulp develop",
     "deploy": "./node_modules/.bin/gh-pages --dist build --repo https://github.com/HackCampus/hackcampus.github.io.git --branch master --message \"Deployed from https://github.com/HackCampus/website\""
   },
   "repository": {
@@ -16,6 +17,14 @@
   },
   "homepage": "https://hackcampus.io/",
   "dependencies": {
-    "gh-pages": "^0.11.0"
+    "autoprefixer": "^6.5.1",
+    "cssnano": "^3.8.0",
+    "gh-pages": "^0.11.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-cli": "github:gulpjs/gulp-cli",
+    "gulp-postcss": "^6.2.0",
+    "mkdirp": "^0.5.1",
+    "precss": "^1.4.0",
+    "rimraf": "^2.5.4"
   }
 }

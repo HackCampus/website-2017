@@ -1,5 +1,9 @@
 # HackCampus website
 
+## develop
+
+```npm run develop```
+
 ## deploy to GitHub pages
 
 ```npm run deploy```

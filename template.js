@@ -1,12 +1,12 @@
-module.exports = () => `
-<!DOCTYPE html>
+module.exports = () =>
+`<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>foo</title>
+    <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    nothing to see here
+    nothing to see here yet
   </body>
-</html>
-`
+</html>`

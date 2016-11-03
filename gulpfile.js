@@ -1,7 +1,10 @@
 const autoprefixer = require('autoprefixer')
+const babelify = require('babelify')
+const browserify = require('browserify')
 const cssnano = require('cssnano')
 const decache = require('decache')
 const ecstatic = require('ecstatic')
+const exorcist = require('exorcist')
 const file = require('gulp-file')
 const gulp = require('gulp')
 const http = require('http')
@@ -12,6 +15,8 @@ const path = require('path')
 const postcss = require('gulp-postcss')
 const precss = require('precss')
 const rimraf = require('rimraf')
+const uglifyify = require('uglifyify')
+const source = require('vinyl-source-stream')
 
 function rerequire (module) {
   decache(module)
@@ -45,6 +50,27 @@ gulp.task('styles', () =>
     .pipe(gulp.dest(local('build', 'styles')))
 )
 
+gulp.task('js', () => {
+  return browserify({
+    entries: [local('scripts', 'index.js')],
+    // fullPaths: true, // for disc
+    debug: true,
+  })
+  .transform(babelify, {presets: ['es2015']})
+  // .transform(uglifyify, {global: true})
+  .bundle()
+  .on('error', e => {
+    notifier.notify({
+      title: 'hackcampus',
+      message: e.message,
+    })
+    throw e
+  })
+  .pipe(exorcist(local('build', 'hc.js.map')))
+  .pipe(source('hc.js'))
+  .pipe(gulp.dest(local('build')))
+})
+
 gulp.task('clean', (done) => {
   rimraf.sync(local('build'))
   mkdirp.sync(local('build'))
@@ -61,10 +87,13 @@ gulp.task('watch', () => {
   })
 })
 
+const serverPort = 8080
 gulp.task('serve', () => {
   http.createServer(
     ecstatic({ root: local('build') })
-  ).listen(8080);
+  ).listen(serverPort, err => {
+    console.log(serverPort)
+  })
 })
 
 gulp.task('livereload', () => {
@@ -72,7 +101,7 @@ gulp.task('livereload', () => {
   server.watch(local('build'))
 })
 
-gulp.task('build', gulp.parallel('html', 'styles'))
+gulp.task('build', gulp.parallel('html', 'styles', 'js'))
 
 gulp.task('local-dev', gulp.parallel('watch', 'serve', 'livereload'))
 

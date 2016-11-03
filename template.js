@@ -8,5 +8,6 @@ module.exports = () =>
   </head>
   <body>
     nothing to see here yet
+    <script src="hc.js"></script>
   </body>
 </html>`

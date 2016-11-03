@@ -50,7 +50,7 @@ gulp.task('styles', () =>
     .pipe(gulp.dest(local('build', 'styles')))
 )
 
-gulp.task('js', () => {
+gulp.task('js', done => {
   return browserify({
     entries: [local('scripts', 'index.js')],
     // fullPaths: true, // for disc
@@ -64,7 +64,8 @@ gulp.task('js', () => {
       title: 'hackcampus',
       message: e.message,
     })
-    throw e
+    console.log(e)
+    done()
   })
   .pipe(exorcist(local('build', 'hc.js.map')))
   .pipe(source('hc.js'))
@@ -81,6 +82,7 @@ gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
     gulp.watch(local('*.js'), gulp.parallel('html')),
+    gulp.watch(local('scripts/**/*.js'), gulp.parallel('js')),
   ]
   watchers.forEach(watcher => {
     watcher.on('change', event => { console.log(event) })

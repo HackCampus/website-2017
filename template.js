@@ -7,7 +7,15 @@ module.exports = () =>
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    nothing to see here yet
+    <div class="hero">
+    hero me baby
+    </div>
+    <div class="navbar">
+      <div class="letters"></div>
+    </div>
+    <div class="content">
+    content me baby
+    </div>
     <script src="hc.js"></script>
   </body>
 </html>`

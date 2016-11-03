@@ -1,5 +1,35 @@
 $orange: rgb(255, 150, 0);
+$pixelSize: 4px;
+$navbarHeight: calc($pixelSize * 9);
+
 
 body {
+  margin: 0;
+  background-color: white;
+  height: 2000px;
+}
+
+.hero {
+  background: black;
+  height: calc(100vh - $navbarHeight);
+}
+
+.navbar {
+  height: $navbarHeight;
   background-color: $orange;
+}
+
+.navbar.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.spacer {
+  height: $navbarHeight;
+}
+
+.letters {
+  max-width: calc($pixelSize * 8 * 10);
 }

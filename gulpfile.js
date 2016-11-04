@@ -9,6 +9,7 @@ const file = require('gulp-file')
 const gulp = require('gulp')
 const http = require('http')
 const livereload = require('livereload')
+const lost = require('lost')
 const mkdirp = require('mkdirp')
 const notifier = require('node-notifier')
 const path = require('path')
@@ -44,15 +45,16 @@ gulp.task('styles', () =>
   gulp.src(local('styles', '*.css'))
     .pipe(postcss([
       precss(),
+      lost(),
       autoprefixer(),
       cssnano(),
     ]))
     .pipe(gulp.dest(local('build', 'styles')))
 )
 
-gulp.task('js', done => {
+gulp.task('client', done => {
   return browserify({
-    entries: [local('scripts', 'index.js')],
+    entries: [local('client', 'index.js')],
     // fullPaths: true, // for disc
     debug: true,
   })
@@ -81,8 +83,9 @@ gulp.task('clean', (done) => {
 gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
-    gulp.watch(local('*.js'), gulp.parallel('html')),
-    gulp.watch(local('scripts/**/*.js'), gulp.parallel('js')),
+    gulp.watch(local('**/*.js'), gulp.parallel('html')),
+    gulp.watch(local('**/*.md'), gulp.parallel('html')),
+    gulp.watch(local('client/**/*.js'), gulp.parallel('client')),
   ]
   watchers.forEach(watcher => {
     watcher.on('change', event => { console.log(event) })
@@ -103,7 +106,7 @@ gulp.task('livereload', () => {
   server.watch(local('build'))
 })
 
-gulp.task('build', gulp.parallel('html', 'styles', 'js'))
+gulp.task('build', gulp.parallel('html', 'styles', 'client'))
 
 gulp.task('local-dev', gulp.parallel('watch', 'serve', 'livereload'))
 

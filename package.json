@@ -37,6 +37,7 @@
     "node-notifier": "^4.6.1",
     "precss": "^1.4.0",
     "rimraf": "^2.5.4",
+    "three": "^0.82.1",
     "uglifyify": "^3.0.4",
     "vinyl-source-stream": "^1.1.0"
   }

@@ -1,15 +1,11 @@
+const addThrottledEventListener = require('./addThrottledEventListener')
+const Conway = require('./conway')
 const Letters = require('./letters')
 
-function addThrottledEventListener (eventName, listener, target = window) {
-  var inProgress = false
-  target.addEventListener(eventName, event => {
-    if (inProgress) return
-    inProgress = true
-    window.requestAnimationFrame(() => {
-      listener(event)
-      inProgress = false
-    })
-  })
+function hero () {
+  const header = document.querySelector('header')
+  const conway = new Conway(header)
+  conway.start()
 }
 
 function navbar () {
@@ -34,7 +30,7 @@ function navbar () {
 }
 
 function main () {
+  hero()
   navbar()
-
 }
 document.addEventListener('DOMContentLoaded', main)

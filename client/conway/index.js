@@ -14,21 +14,33 @@ class Conway {
     this.c = [[0, -1], [1, -1], [-1, 0], [0, 1], [1, 1]]
     this.step = 0
     this.renderedStep = -1
+    this.cellsToRender = []
     this.lastRenderedFrame = 0
     this.frame = 0
+    this.meshCache = {}
 
-    this.scene = new Three.Scene()
-    const aspect = container.clientWidth / container.clientHeight
-    this.camera = new Three.PerspectiveCamera(20, aspect, 1, 1000)
     this.renderer = new Three.WebGLRenderer()
     this.renderer.setPixelRatio(window.devicePixelRatio || 1)
     container.appendChild(this.renderer.domElement)
 
+    this.scene = new Three.Scene()
+
+    const aspect = container.clientWidth / container.clientHeight
+    this.camera = new Three.PerspectiveCamera(20, aspect, 1, 1000)
     this.camera.position.z = 20
 
     this.light = new Three.PointLight(white, 1, 0)
-    this.light.position.set(0, 10, 20)
+    this.light.position.set(0, 10, 500)
     this.scene.add(this.light)
+
+    this.game = new Three.Object3D()
+    this.scene.add(this.game)
+
+    this.materials = {
+      [orange]: new Three.MeshLambertMaterial({color: orange}),
+      [white]: new Three.MeshLambertMaterial({color: white}),
+    }
+    this.geometry = new Three.BoxGeometry(1, 1, 1)
 
     const onResize = () => {
       const width = container.clientWidth
@@ -36,19 +48,16 @@ class Conway {
       this.camera.aspect = width / height
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(width, height)
+      this.renderer.render(this.scene, this.camera)
     }
     onResize()
     addThrottledEventListener('resize', onResize)
 
-    const onMouseMove = event => {
-      // const oldMouseX = this.mouseX
-      // const oldMouseY = this.mouseY
-      this.mouseX = event.clientX / window.innerWidth
-      this.mouseY = event.clientY / window.innerHeight
-      // this.camera.rotation.y = (this.mouseX - 0.5) / 2
-      // this.camera.rotation.y = (this.mouseY - 0.5) / 2
-    }
-    addThrottledEventListener('mousemove', onMouseMove)
+    // const onMouseMove = event => {
+    //   this.mouseX = event.clientX / window.innerWidth
+    //   this.mouseY = event.clientY / window.innerHeight
+    // }
+    // addThrottledEventListener('mousemove', onMouseMove)
 
     window.addEventListener('mousedown', () => {
       this.stop()
@@ -73,38 +82,97 @@ class Conway {
 
   draw () {
     if (this.renderedStep < this.step) {
-      // this.scene.children = [this.camera, this.light]
-      this.h.forEach(([x, y]) => {
-        this.addCube(x, y, this.step, orange)
-      })
-      this.c.forEach(([x, y]) => {
-        this.addCube(x, y, this.step, white)
-      })
+      // this.cellsToRender = this.getCellsToRender(this.h, this.cellsToRender, this.step)
+      // const meshes = this.cellsToRender.map(([x, y, step]) => this.createMesh(x, y, step, orange))
+      const newCells = this.h.map(([x, y]) => this.createMesh(x, y, this.step, orange))
+      this.game.children = this.game.children.concat(newCells)
       this.renderedStep++
     }
+
+    // pause on logo
     if (this.frame < 2 * 60) {
       return
     }
-    if (this.lastRenderedFrame < this.frame - 10) {
-      this.h = life(this.h)
-      this.c = life(this.c)
 
+    // perform game of life step
+    if (this.frame > this.lastRenderedFrame + 10) {
+      this.h = life(this.h)
       this.step++
       this.lastRenderedFrame = this.frame
     }
-    const cameraSpeed = 10 / 60
+
+    // zoom out
+    const cameraSpeed = 2 / 10
     this.camera.position.z += cameraSpeed
     this.light.position.z += cameraSpeed
   }
 
-  addCube (x, y, step, color) {
-    const geometry = new Three.BoxGeometry(1, 1, 1)
-    const material = new Three.MeshLambertMaterial({color})
-    const cube = new Three.Mesh(geometry, material)
+  // board & oldRenderedCells must be in order, by y, then by x.
+  getCellsToRender (newBoard, oldRenderedCells, newStep) {
+    let liveCells = []
+
+    const oldCells = oldRenderedCells[Symbol.iterator]()
+    const newCells = newBoard[Symbol.iterator]()
+    let newCell = newCells.next().value
+    let oldCell = oldCells.next().value
+
+    while (!(oldCell == null && newCell == null)) {
+      // no more new cells
+      if (newCell == null) {
+        liveCells.push(oldCell)
+        oldCell = oldCells.next().value
+        continue
+      }
+
+      const [newX, newY] = newCell
+
+      // no more old cells
+      if (oldCell == null) {
+        liveCells.push([newX, newY, newStep])
+        newCell = newCells.next().value
+        continue
+      }
+
+      const [oldX, oldY, oldStep] = oldCell
+
+      // render all old cells that are before the next new cell
+      // ie. they died, we want to keep them in old generation
+      if (oldY < newY || oldY === newY && oldX < newX) {
+        liveCells.push(oldCell)
+        oldCell = oldCells.next().value
+        continue
+      }
+
+      // old cell survives, render it in the new step
+      if (oldY === newY && oldX === newX) {
+        liveCells.push([oldX, oldY, newStep])
+        oldCell = oldCells.next().value
+        newCell = newCells.next().value
+        continue
+      }
+
+      // a new cell is born
+      if (oldY === newY && oldX > newX || oldY > newY) {
+        liveCells.push([newX, newY, newStep])
+        newCell = newCells.next().value
+        continue
+      }
+    }
+    return liveCells
+  }
+
+  createMesh (x, y, step, color) {
+    const cacheKey = `${x},${y},${step},${color}`
+    const cached = this.meshCache[cacheKey]
+    if (cached) {
+      return cached
+    }
+    const cube = new Three.Mesh(this.geometry, this.materials[color])
     cube.position.x = x
     cube.position.y = -y
     cube.position.z = step
-    this.scene.add(cube)
+    this.meshCache[cacheKey] = cube
+    return cube
   }
 }
 

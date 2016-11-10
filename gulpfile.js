@@ -72,6 +72,12 @@ gulp.task('client', done => {
   .pipe(exorcist(local('build', 'hc.js.map')))
   .pipe(source('hc.js'))
   .pipe(gulp.dest(local('build')))
+  .on('end', () => {
+    notifier.notify({
+      title: 'hackcampus',
+      message: '🐝',
+    })
+  })
 })
 
 gulp.task('clean', (done) => {

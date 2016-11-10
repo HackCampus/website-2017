@@ -44,9 +44,9 @@ function life (board) {
 
 module.exports = life
 
-const initial = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]]
-const expected = [[0, 1], [2, 1], [1, 2], [2, 2], [1, 3]]
-const actual = life(initial)
-console.log('expected', expected)
-console.log('actual', actual)
-console.log(JSON.stringify(expected) === JSON.stringify(actual))
+// const initial = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]]
+// const expected = [[0, 1], [2, 1], [1, 2], [2, 2], [1, 3]]
+// const actual = life(initial)
+// console.log('expected', expected)
+// console.log('actual', actual)
+// console.log(JSON.stringify(expected) === JSON.stringify(actual))

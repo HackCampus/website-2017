@@ -4,7 +4,10 @@ const Letters = require('./letters')
 
 function hero () {
   const header = document.querySelector('header')
-  const conway = new Conway(header)
+  const container = document.createElement('div')
+  container.className = 'conway'
+  header.appendChild(container)
+  const conway = new Conway(container)
   conway.start()
 }
 

@@ -6,16 +6,15 @@ const life = require('./life')
 const orange = 0xff9600
 const white = 0xffffff
 
+const initialCameraDistance = 20
+const cameraZoom = 2 // per generation
+
 class Conway {
-  constructor (container) {
+  constructor (container, generations = 128) {
     this.container = container
 
     this.h = [[-2, -2], [-2, -1], [-1, -1], [-2, 0], [0, 0]]
     this.c = [[0, -1], [1, -1], [-1, 0], [0, 1], [1, 1]]
-    this.step = 0
-    this.renderedStep = -1
-    this.cellsToRender = []
-    this.lastRenderedFrame = 0
     this.frame = 0
     this.meshCache = {}
 
@@ -27,10 +26,10 @@ class Conway {
 
     const aspect = container.clientWidth / container.clientHeight
     this.camera = new Three.PerspectiveCamera(20, aspect, 1, 1000)
-    this.camera.position.z = 20
+    this.camera.position.z = initialCameraDistance
 
-    this.light = new Three.PointLight(white, 1, 0)
-    this.light.position.set(0, 10, 500)
+    this.light = new Three.DirectionalLight(white, 1, 0)
+    this.light.position.set(20, 20, generations)
     this.scene.add(this.light)
 
     this.game = new Three.Object3D()
@@ -59,9 +58,15 @@ class Conway {
     // }
     // addThrottledEventListener('mousemove', onMouseMove)
 
-    window.addEventListener('mousedown', () => {
-      this.stop()
-    })
+    this.scrolledAmount = 0
+    const onScroll = event => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
+      const scrolledAmount = scrollTop / document.body.clientHeight
+      this.scrolledAmount = scrolledAmount > 1 ? 1 : scrolledAmount < 0 ? 0 : scrolledAmount
+    }
+    addThrottledEventListener('scroll', onScroll)
+
+    this.generations = this.getGenerations(generations)
   }
 
   start () {
@@ -81,87 +86,16 @@ class Conway {
   }
 
   draw () {
-    if (this.renderedStep < this.step) {
-      // this.cellsToRender = this.getCellsToRender(this.h, this.cellsToRender, this.step)
-      // const meshes = this.cellsToRender.map(([x, y, step]) => this.createMesh(x, y, step, orange))
-      const newCells = this.h.map(([x, y]) => this.createMesh(x, y, this.step, orange))
-      this.game.children = this.game.children.concat(newCells)
-      this.renderedStep++
+    const generation = this.generations.length * this.scrolledAmount
+    let cells = [this.generations[0]]
+    for (let i = 1; i < generation; i++) {
+      cells.push(this.generations[i])
     }
-
-    // pause on logo
-    if (this.frame < 2 * 60) {
-      return
-    }
-
-    // perform game of life step
-    if (this.frame > this.lastRenderedFrame + 10) {
-      this.h = life(this.h)
-      this.step++
-      this.lastRenderedFrame = this.frame
-    }
-
-    // zoom out
-    const cameraSpeed = 2 / 10
-    this.camera.position.z += cameraSpeed
-    this.light.position.z += cameraSpeed
+    this.game.children = cells
+    this.camera.position.z = initialCameraDistance + this.scrolledAmount * this.generations.length * cameraZoom
   }
 
-  // board & oldRenderedCells must be in order, by y, then by x.
-  getCellsToRender (newBoard, oldRenderedCells, newStep) {
-    let liveCells = []
-
-    const oldCells = oldRenderedCells[Symbol.iterator]()
-    const newCells = newBoard[Symbol.iterator]()
-    let newCell = newCells.next().value
-    let oldCell = oldCells.next().value
-
-    while (!(oldCell == null && newCell == null)) {
-      // no more new cells
-      if (newCell == null) {
-        liveCells.push(oldCell)
-        oldCell = oldCells.next().value
-        continue
-      }
-
-      const [newX, newY] = newCell
-
-      // no more old cells
-      if (oldCell == null) {
-        liveCells.push([newX, newY, newStep])
-        newCell = newCells.next().value
-        continue
-      }
-
-      const [oldX, oldY, oldStep] = oldCell
-
-      // render all old cells that are before the next new cell
-      // ie. they died, we want to keep them in old generation
-      if (oldY < newY || oldY === newY && oldX < newX) {
-        liveCells.push(oldCell)
-        oldCell = oldCells.next().value
-        continue
-      }
-
-      // old cell survives, render it in the new step
-      if (oldY === newY && oldX === newX) {
-        liveCells.push([oldX, oldY, newStep])
-        oldCell = oldCells.next().value
-        newCell = newCells.next().value
-        continue
-      }
-
-      // a new cell is born
-      if (oldY === newY && oldX > newX || oldY > newY) {
-        liveCells.push([newX, newY, newStep])
-        newCell = newCells.next().value
-        continue
-      }
-    }
-    return liveCells
-  }
-
-  createMesh (x, y, step, color) {
+  getMesh (x, y, step, color) {
     const cacheKey = `${x},${y},${step},${color}`
     const cached = this.meshCache[cacheKey]
     if (cached) {
@@ -173,6 +107,22 @@ class Conway {
     cube.position.z = step
     this.meshCache[cacheKey] = cube
     return cube
+  }
+
+  getGenerations (maxGenerations) {
+    let h = this.h
+    let c = this.c
+    let boards = []
+    for (let generation = 0; generation < maxGenerations; generation++) {
+      const hCells = h.map(([x, y]) => this.getMesh(x, y, generation, orange))
+      const cCells = c.map(([x, y]) => this.getMesh(x, y, generation, white))
+      const object = new Three.Object3D()
+      object.children = hCells.concat(cCells)
+      boards.push(object)
+      h = life(h)
+      c = life(c)
+    }
+    return boards
   }
 }
 

@@ -49,8 +49,11 @@ gulp.task('styles', () =>
       autoprefixer(),
       cssnano(),
     ]))
-    .pipe(gulp.dest(local('build', 'styles')))
-)
+    .pipe(gulp.dest(local('build', 'styles'))))
+
+gulp.task('images', () =>
+  gulp.src(local('images', '**', '*'))
+    .pipe(gulp.dest(local('build', 'images'))))
 
 gulp.task('client', done => {
   return browserify({
@@ -89,9 +92,10 @@ gulp.task('clean', (done) => {
 gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
-    gulp.watch(local('**/*.js'), gulp.parallel('html')),
-    gulp.watch(local('**/*.md'), gulp.parallel('html')),
-    gulp.watch(local('client/**/*.js'), gulp.parallel('client')),
+    gulp.watch(local('**', '*.js'), gulp.parallel('html')),
+    gulp.watch(local('content', '*.md'), gulp.parallel('html')),
+    gulp.watch(local('client', '**', '*.js'), gulp.parallel('client')),
+    gulp.watch(local('images', '**', '*'), gulp.parallel('images')),
   ]
   watchers.forEach(watcher => {
     watcher.on('change', event => { console.log(event) })
@@ -112,7 +116,7 @@ gulp.task('livereload', () => {
   server.watch(local('build'))
 })
 
-gulp.task('build', gulp.parallel('html', 'styles', 'client'))
+gulp.task('build', gulp.parallel('html', 'styles', 'images', 'client'))
 
 gulp.task('local-dev', gulp.parallel('watch', 'serve', 'livereload'))
 

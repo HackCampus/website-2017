@@ -12,5 +12,6 @@ Deploys to the https://github.com/HackCampus/hackcampus.github.io repo.
 
 ## TODO
 
+- [ ] replace placeholder video
 - [ ] set up domain
 - [ ] Google Analytics

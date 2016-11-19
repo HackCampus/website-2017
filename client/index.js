@@ -9,6 +9,11 @@ function hero () {
   header.appendChild(container)
   const conway = new Conway(container)
   conway.start()
+  // window.setTimeout(() => {
+  //   conway.evolveToEnd()
+  //   const content = header.querySelector('.content')
+  //   content.classList.add('fade-in')
+  // }, 2000)
 }
 
 function navbar () {

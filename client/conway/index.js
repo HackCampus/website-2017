@@ -6,8 +6,8 @@ const life = require('./life')
 const orange = 0xff9600
 const white = 0xffffff
 
-const initialCameraDistance = 20
-const cameraZoom = 2 // per generation
+const initialCameraDistance = 23
+const cameraZoom = 1.3 // per generation
 
 class Conway {
   constructor (container, generations = 128) {
@@ -17,6 +17,8 @@ class Conway {
     this.c = [[0, -1], [1, -1], [-1, 0], [0, 1], [1, 1]]
     this.frame = 0
     this.meshCache = {}
+    this.evolutionRatio = 0
+    this.evolutionRate = 0
 
     this.renderer = new Three.WebGLRenderer()
     this.renderer.setPixelRatio(window.devicePixelRatio || 1)
@@ -25,7 +27,7 @@ class Conway {
     this.scene = new Three.Scene()
 
     const aspect = container.clientWidth / container.clientHeight
-    this.camera = new Three.PerspectiveCamera(20, aspect, 1, 1000)
+    this.camera = new Three.PerspectiveCamera(30, aspect, 1, 1000)
     this.camera.position.z = initialCameraDistance
 
     this.light = new Three.DirectionalLight(white, 1, 0)
@@ -40,6 +42,7 @@ class Conway {
       [white]: new Three.MeshLambertMaterial({color: white}),
     }
     this.geometry = new Three.BoxGeometry(1, 1, 1)
+    // this.geometry = new Three.PlaneGeometry(1, 1, 1)
 
     const onResize = () => {
       const width = container.clientWidth
@@ -52,17 +55,16 @@ class Conway {
     onResize()
     addThrottledEventListener('resize', onResize)
 
-    // const onMouseMove = event => {
-    //   this.mouseX = event.clientX / window.innerWidth
-    //   this.mouseY = event.clientY / window.innerHeight
-    // }
-    // addThrottledEventListener('mousemove', onMouseMove)
+    const onMouseMove = event => {
+      this.mouseX = (event.clientX / window.innerWidth) * 2 - 1
+      this.mouseY = (event.clientY / window.innerHeight) * 2 - 1
+    }
+    addThrottledEventListener('mousemove', onMouseMove)
 
-    this.scrolledAmount = 0
     const onScroll = event => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
       const scrolledAmount = scrollTop / document.body.clientHeight
-      this.scrolledAmount = scrolledAmount > 1 ? 1 : scrolledAmount < 0 ? 0 : scrolledAmount
+      this.evolutionRatio = scrolledAmount > 1 ? 1 : scrolledAmount < 0 ? 0 : scrolledAmount
     }
     addThrottledEventListener('scroll', onScroll)
 
@@ -86,13 +88,29 @@ class Conway {
   }
 
   draw () {
-    const generation = this.generations.length * this.scrolledAmount
+    const generation = this.generations.length * this.evolutionRatio
     let cells = [this.generations[0]]
     for (let i = 1; i < generation; i++) {
       cells.push(this.generations[i])
     }
     this.game.children = cells
-    this.camera.position.z = initialCameraDistance + this.scrolledAmount * this.generations.length * cameraZoom
+    this.camera.position.z = initialCameraDistance + this.evolutionRatio * this.generations.length * cameraZoom
+
+    this.game.rotation.x = this.mouseX
+
+    this.evolutionRatio += this.evolutionRate
+    if (this.evolutionRatio > 1) {
+      this.evolutionRatio = 1
+      this.evolutionRate = 0
+    }
+    if (this.evolutionRatio < 0) {
+      this.evolutionRatio = 0
+      this.evolutionRate = 0
+    }
+  }
+
+  evolveToEnd () {
+    this.evolutionRate = 1 / 60
   }
 
   getMesh (x, y, step, color) {

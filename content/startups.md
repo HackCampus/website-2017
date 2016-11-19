@@ -1,5 +1,3 @@
-## Startups
-
 **Small companies find it difficult to devote time to hiring interns - we reduce the amount of work companies have to do by extensively vetting applicants, and making sure that their technical abilities match the requirements of your company.**
 
 ### Develop leadership skills in your tech team

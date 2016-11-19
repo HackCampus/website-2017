@@ -1,11 +1,11 @@
 <div class="companies">
-  <div class="company">Credit Benchmark</div>
-  <div class="company">Deliveroo</div>
-  <div class="company">EDITED</div>
-  <div class="company">JustPark</div>
-  <div class="company">MyOptique</div>
-  <div class="company">onefinestay</div>
-  <div class="company">Secret Escapes</div>
-  <div class="company">SwiftKey</div>
-  <div class="company">viagogo</div>
+  <div class="company"><img src="images/creditbenchmark.jpg" /></div>
+  <div class="company"><img src="images/deliveroo.jpg" /></div>
+  <div class="company"><img src="images/edited.jpg" /></div>
+  <div class="company"><img src="images/justpark.jpg" /></div>
+  <div class="company"><img src="images/myoptique.jpg" /></div>
+  <div class="company"><img src="images/onefinestay.jpg" /></div>
+  <div class="company"><img src="images/secretescapes.jpg" /></div>
+  <div class="company"><img src="images/swiftkey.jpg" /></div>
+  <div class="company"><img src="images/viagogo.jpg" /></div>
 </div>

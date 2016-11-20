@@ -13,6 +13,9 @@ class ConwayTransition {
 
     this.nextElement = container.nextElementSibling
 
+    this.container.style.height = '100vh'
+    this.container.style.backgroundColor = this.backgroundColor
+
     const canvas = document.createElement('canvas')
     canvas.style.position = 'fixed'
     canvas.style.zIndex = '1'
@@ -20,8 +23,14 @@ class ConwayTransition {
     this.c = canvas.getContext('2d')
     container.appendChild(canvas)
 
+    const getScrollAmount = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
+      const scrollAmount = (scrollTop - this.offsetTop) / window.innerHeight
+      return scrollAmount
+    }
+
     this.scale = window.devicePixelRatio || 1
-    const setSize = () => {
+    const onResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
       this.width = width * this.scale
@@ -41,20 +50,19 @@ class ConwayTransition {
       this.nextElementHeight = this.nextElement.clientHeight
 
       this.makeGames()
+
+      this.scrollAmount = getScrollAmount()
       window.requestAnimationFrame(() => { this.draw() })
     }
-    setSize()
-    window.addEventListener('resize', setSize)
+    onResize()
+    window.addEventListener('resize', onResize)
 
     const onScroll = event => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
-      const scrollAmount = (scrollTop - this.offsetTop) / window.innerHeight
-      this.scrollAmount = scrollAmount
+      this.scrollAmount = getScrollAmount()
       window.requestAnimationFrame(() => { this.draw() })
     }
     onScroll()
     window.addEventListener('scroll', onScroll)
-
   }
 
   makeGames () {
@@ -96,16 +104,7 @@ class ConwayTransition {
   }
 
   draw () {
-    this.nextElement.style = {}
-
     this.c.clearRect(0, 0, this.width * this.scale, this.height * this.scale)
-
-    const centerOffsetLeft = -(this.width % this.cellSize) / 2
-    const centerOffsetTop = -(this.height % this.cellSize) / 2
-    const drawCell = (x, y, color) => {
-      this.c.fillStyle = color
-      this.c.fillRect(centerOffsetLeft + x * this.cellSize, centerOffsetTop + y * this.cellSize, this.cellSize, this.cellSize)
-    }
 
     const fixNextElement = () => {
       this.nextElement.style.position = 'fixed'
@@ -115,22 +114,22 @@ class ConwayTransition {
       this.container.style.height = `calc(100vh + ${this.nextElementHeight}px)`
     }
 
-    const resetFexNixtElement = () => {
-      this.nextElement.style = {}
+    const resetFixNextElement = () => {
+      this.nextElement.style.cssText = ''
       this.container.style.height = '100vh'
       this.container.style.backgroundColor = this.backgroundColor
     }
 
     const offScreen = this.scrollAmount < -1 || this.scrollAmount >= 1
     if (offScreen) {
-      resetFexNixtElement()
+      resetFixNextElement()
       this.c.globalAlpha = 0
       return
     }
 
     let generation = 0, alpha = 0
     if (this.scrollAmount >= -1 && this.scrollAmount < 0) {
-      resetFexNixtElement()
+      resetFixNextElement()
 
       alpha = Math.pow(this.scrollAmount + 1, 4)
       generation = 0
@@ -146,6 +145,7 @@ class ConwayTransition {
       alpha = 1 - Math.pow(this.scrollAmount, 4)
       generation = Math.floor(this.scrollAmount * this.generations)
     }
+
     this.c.globalAlpha = alpha
 
     const hGame = this.hGames[generation]
@@ -155,21 +155,28 @@ class ConwayTransition {
       for (let x = 0; x < this.gameWidth; x++) {
         const c = cGame.get(x, y)
         if (c) {
-          drawCell(x, y, this.cColor)
+          this.drawCell(x, y, this.cColor)
           continue
         }
         const h = hGame.get(x, y)
         if (h) {
-          drawCell(x, y, this.hColor)
+          this.drawCell(x, y, this.hColor)
           continue
         }
         const alreadyAlive = trail.get(x, y)
         if (!alreadyAlive) {
-          drawCell(x, y, this.backgroundColor)
+          this.drawCell(x, y, this.backgroundColor)
           continue
         }
       }
     }
+  }
+
+  drawCell (x, y, color) {
+    const centerOffsetLeft = -(this.width % this.cellSize) / 2
+    const centerOffsetTop = -(this.height % this.cellSize) / 2
+    this.c.fillStyle = color
+    this.c.fillRect(centerOffsetLeft + x * this.cellSize, centerOffsetTop + y * this.cellSize, this.cellSize, this.cellSize)
   }
 }
 

@@ -10,9 +10,7 @@ module.exports = () =>
   </head>
   <body>
     <div class="panel black"></div>
-    <div class="transition" data-h-color="#ff9600" data-c-color="white" data-background-color="black"></div>
     <div class="panel orange">foo bar</div>
-    <div class="transition" data-h-color="black" data-c-color="white" data-background-color="#ff9600"></div>
     <div class="panel white">foo</div>
     ${/*<div class="navbar">
       <div class="letters"></div>

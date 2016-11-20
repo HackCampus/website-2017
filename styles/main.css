@@ -29,7 +29,6 @@ p {
 
 a {
   color: inherit;
-  border-bottom: 1px solid $orange;
   text-decoration: none;
 }
 
@@ -41,70 +40,39 @@ strong {
 
 body {
   margin: 0;
-  background-color: white;
-  height: 2000px;
 }
 
-header {
-  height: calc(100vh - $navbarHeight);
-  color: white;
-  display: flex;
+.panel {
+  min-height: 100vh;
 }
 
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.fade-in {
-  animation: 1s ease-in 1s fade-in forwards;
-}
-
-header .content {
-  margin: auto;
-  max-width: 600px;
-  opacity: 0;
-}
-
-.conway {
-  position: fixed;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-}
-
-.navbar {
-  height: $navbarHeight;
+.orange {
   background-color: $orange;
+  color: black;
+  a {
+    border-bottom: 1px solid white;
+  }
 }
 
-.navbar.sticky {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+.black {
+  background-color: black;
+  color: white;
+  a {
+    border-bottom: 1px solid $orange;
+  }
 }
 
-.spacer {
-  height: $navbarHeight;
+.white {
+  background-color: white;
+  color: black;
+  a {
+    border-bottom: 1px solid $orange;
+  }
 }
 
-.letters {
+/*.letters {
   max-width: calc($pixelSize * 8 * 10);
-}
-
-main {
-  visibility: hidden;
-  background: white;
-  lost-center: 960px;
-  padding: 20px;
-}
+}*/
 
 .companies {
   lost-utility: clearfix;
@@ -123,7 +91,7 @@ main {
   max-height: 128.5px;
 }
 
-img {
+.company img {
   width: 100%;
   max-width: 171px;
   margin: auto;

@@ -1,44 +1,16 @@
 const addThrottledEventListener = require('./addThrottledEventListener')
-const Conway = require('./conway')
+const ConwayTransition = require('./ConwayTransition')
 const Letters = require('./letters')
 
-function hero () {
-  const header = document.querySelector('header')
-  const container = document.createElement('div')
-  container.className = 'conway'
-  header.appendChild(container)
-  const conway = new Conway(container)
-  conway.start()
-  // window.setTimeout(() => {
-  //   conway.evolveToEnd()
-  //   const content = header.querySelector('.content')
-  //   content.classList.add('fade-in')
-  // }, 2000)
-}
-
-function navbar () {
-  const navbar = document.querySelector('.navbar')
-
-  const spacer = document.createElement('div')
-  navbar.parentElement.insertBefore(spacer, navbar)
-
-  const lettersContainer = document.querySelector('.letters')
-  const letters = new Letters(lettersContainer)
-  letters.start()
-
-  addThrottledEventListener('scroll', function (e) {
-    if (window.scrollY < window.innerHeight - navbar.clientHeight) {
-      navbar.classList.remove('sticky')
-      spacer.classList.remove('spacer')
-    } else {
-      navbar.classList.add('sticky')
-      spacer.classList.add('spacer')
-    }
-  })
+function $ (selector) {
+  return [].slice.call(document.querySelectorAll(selector))
 }
 
 function main () {
-  hero()
-  navbar()
+  const transitions = $('.transition')
+  transitions.map(transition => {
+    const {hColor, cColor, backgroundColor} = transition.dataset
+    return new ConwayTransition(transition, hColor, cColor, backgroundColor)
+  })
 }
 document.addEventListener('DOMContentLoaded', main)

@@ -44,6 +44,8 @@ body {
 
 .panel {
   min-height: 100vh;
+  padding: 70px;
+  box-sizing: border-box;
 }
 
 .orange {

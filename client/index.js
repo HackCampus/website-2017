@@ -1,14 +1,13 @@
 const addThrottledEventListener = require('./addThrottledEventListener')
 const constants = require('./constants')
 const ConwayTransition = require('./ConwayTransition')
-const Letters = require('./letters')
+const Letters = require('./Letters')
 
 function $ (selector) {
   return [].slice.call(document.querySelectorAll(selector))
 }
 
-function transitions () {
-  const panels = $('.panel')
+function transitions (panels) {
   for (let i = 0; i < panels.length - 1; i++) {
     const current = panels[i]
     const next = panels[i + 1]
@@ -34,7 +33,25 @@ function transitions () {
   }
 }
 
+function titles (panels) {
+  const container = document.querySelector('.titles')
+  const titles = panels.map(panel => ({
+    element: panel,
+    text: panel.dataset.title,
+    color: getTitleColor(panel)
+  }))
+  const letters = new Letters(container, titles)
+
+  function getTitleColor (element) {
+    if (element.classList.contains('black')) return constants.white
+    if (element.classList.contains('white')) return constants.orange
+    if (element.classList.contains('orange')) return constants.black
+  }
+}
+
 function main () {
-  transitions()
+  const panels = $('.panel')
+  transitions(panels)
+  titles(panels)
 }
 document.addEventListener('DOMContentLoaded', main)

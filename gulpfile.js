@@ -47,7 +47,9 @@ gulp.task('styles', () =>
       precss(),
       lost(),
       autoprefixer(),
-      cssnano(),
+      cssnano({
+        zindex: false,
+      }),
     ]))
     .pipe(gulp.dest(local('build', 'styles'))))
 

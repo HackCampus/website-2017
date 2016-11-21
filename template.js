@@ -9,23 +9,12 @@ module.exports = () =>
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
   <body>
-    <div class="panel black"></div>
-    <div class="panel orange">foo bar</div>
-    <div class="panel white">foo</div>
-    ${/*<div class="navbar">
-      <div class="letters"></div>
-    </div>
-    <main>
-      <section>
-        ${content('startups.md')}
-      </section>
-      <section>
-        <div style="position:relative;padding-bottom:56.25%;"><iframe src="" frameborder="0" style="position:absolute;top:0px;left:0px;width:100%;height:100%;"></iframe></div>
-      </section>
-      <section>
-        ${content('companies.md')}
-      </section>
-    </main>*/ ''}
+    <div class="titles"></div>
+    <div class="panel black" data-title="HACKCAMPUS"></div>
+    <div class="panel orange" data-title="ABOUT">foo bar</div>
+    <div class="panel black" data-title="TESTIMONIALS">foo</div>
+    <div class="panel orange" data-title="FAQ">foo</div>
+    <div class="panel white" data-title="ANOTHER ONE">foo</div>
     <script src="/hc.js"></script>
     ${/*<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>*/''}
     <script>

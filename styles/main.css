@@ -70,9 +70,13 @@ body {
   }
 }
 
-/*.letters {
-  max-width: calc($pixelSize * 8 * 10);
-}*/
+.titles {
+  position: fixed;
+  z-index: 2;
+  height: 32px;
+  top: 20px;
+  left: 20px;
+}
 
 .companies {
   lost-utility: clearfix;

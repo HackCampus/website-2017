@@ -9,6 +9,9 @@ class ConwayTransition {
     this.backgroundColor = backgroundColor
     this.generations = generations
     this.cellSize = 120
+    
+    this.scale = window.devicePixelRatio || 1
+    this.offsetTop = 0
     this.scrollAmount = 0
 
     this.nextElement = container.nextElementSibling
@@ -29,7 +32,6 @@ class ConwayTransition {
       return scrollAmount
     }
 
-    this.scale = window.devicePixelRatio || 1
     const onResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
@@ -44,8 +46,7 @@ class ConwayTransition {
       canvas.style.height = height + 'px'
 
       container.style.height = height + 'px'
-      const {top} = container.getBoundingClientRect()
-      this.offsetTop = top
+      this.offsetTop = container.offsetTop
 
       this.nextElementHeight = this.nextElement.clientHeight
 

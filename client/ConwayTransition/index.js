@@ -9,7 +9,7 @@ class ConwayTransition {
     this.backgroundColor = backgroundColor
     this.generations = generations
     this.cellSize = 120
-    
+
     this.scale = window.devicePixelRatio || 1
     this.offsetTop = 0
     this.scrollAmount = 0

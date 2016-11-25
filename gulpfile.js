@@ -29,7 +29,8 @@ const local = (...paths) => path.join(__dirname, ...paths)
 gulp.task('html', done => {
   try {
     const template = rerequire('./template')
-    return file('index.html', template(), {src: true})
+    const startups = rerequire('./pages/startups')
+    return file('index.html', template(startups), {src: true})
       .pipe(gulp.dest(local('build')))
   } catch (e) {
     notifier.notify({
@@ -94,8 +95,8 @@ gulp.task('clean', (done) => {
 gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
-    gulp.watch(local('**', '*.js'), gulp.parallel('html')),
-    gulp.watch(local('content', '*.md'), gulp.parallel('html')),
+    gulp.watch(local('pages', '**', '*.js'), gulp.parallel('html')),
+    gulp.watch(local('pages', '**', '*.md'), gulp.parallel('html')),
     gulp.watch(local('client', '**', '*.js'), gulp.parallel('client')),
     gulp.watch(local('images', '**', '*'), gulp.parallel('images')),
   ]

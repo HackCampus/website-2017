@@ -96,20 +96,38 @@ body {
   }
 }
 
-.companies {
-  lost-utility: clearfix;
+.testimonials {
+  p {
+    font-size: 18px;
+  }
+  .role {
+    color: white;
+  }
+  .quote {
+    margin-top: 4em;
+    margin-bottom: 4em;
+  }
+  blockquote {
+    margin: 0;
+    p {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 24px;
+      line-height: 32px;
+      lost-offset: 0;
+    }
+  }
 }
 
-.company {
-  @media screen and (width < $small) {
-    lost-column: 1/2;
-  }
-  @media screen and (width >= $small) {
-    lost-column: 1/3;
-  }
-  margin-bottom: 10px;
+.companies {
   display: flex;
-  max-height: 128.5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  .content {
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    lost-utility: clearfix;
+  }
 }
 
 .company img {

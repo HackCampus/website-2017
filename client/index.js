@@ -1,51 +1,42 @@
 const addThrottledEventListener = require('./addThrottledEventListener')
-const constants = require('./constants')
-const ConwayTransition = require('./ConwayTransition')
-const Letters = require('./Letters')
+const titles = require('./titles')
+const transitions = require('./transitions')
 
 function $ (selector) {
   return [].slice.call(document.querySelectorAll(selector))
 }
 
-function transitions (panels) {
-  for (let i = 0; i < panels.length - 1; i++) {
-    const current = panels[i]
-    const next = panels[i + 1]
-    const backgroundColor = getColor(current)
-    const hColor = getColor(next)
-    const cColor = getComplement(backgroundColor, hColor)
-    const transition = document.createElement('div')
-    next.parentElement.insertBefore(transition, next)
-    new ConwayTransition(transition, hColor, cColor, backgroundColor)
+function videos () {
+  const elements = $('a.video')
+  const player = document.createElement('div')
+  player.className = 'videoPlayer'
+  player.onclick = event => {
+    hide(player)
   }
+  hide(player)
+  document.body.appendChild(player)
 
-  function getColor (element) {
-    if (element.classList.contains('black')) return constants.black
-    if (element.classList.contains('white')) return constants.white
-    if (element.classList.contains('orange')) return constants.orange
-  }
-
-  function getComplement (colorOne, colorTwo) {
-    const colors = [constants.black, constants.white, constants.orange]
-    for (let color of colors) {
-      if (color !== colorOne && color !== colorTwo) return color
+  elements.forEach(element => {
+    element.onclick = event => {
+      event.preventDefault()
+      show(player)
+      const videoUrl = event.target.attributes.href.value
+      const videoId = videoUrl.match(/watch\?v=(.+)/)[1]
+      const width = window.innerWidth < 720 ? window.innerWidth : 720
+      const height = width * 0.5625
+      player.innerHTML = `<iframe width="${width}" height="${height}" src="https://www.youtube-nocookie.com/embed/${videoId}?controls=0&amp;showinfo=0;autoplay=1" frameborder="0" style="margin:auto" allowfullscreen></iframe>`
     }
+  })
+
+  function show (player) {
+    player.style.visibility = 'visible'
+    player.style.opacity = 1
   }
-}
 
-function titles (panels) {
-  const container = document.querySelector('.titles')
-  const titles = panels.map(panel => ({
-    element: panel,
-    text: panel.dataset.title,
-    color: getTitleColor(panel)
-  }))
-  const letters = new Letters(container, titles)
-
-  function getTitleColor (element) {
-    if (element.classList.contains('black')) return constants.white
-    if (element.classList.contains('white')) return constants.orange
-    if (element.classList.contains('orange')) return constants.black
+  function hide (player) {
+    player.style.visibility = 'hidden'
+    player.style.opacity = 0
+    player.innerHTML = ''
   }
 }
 
@@ -53,5 +44,6 @@ function main () {
   const panels = $('.panel')
   transitions(panels)
   titles(panels)
+  videos()
 }
 document.addEventListener('DOMContentLoaded', main)

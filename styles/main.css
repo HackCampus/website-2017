@@ -41,7 +41,7 @@ a {
 
 a.button {
   border: 1px solid white;
-  padding: 8px;
+  padding: 8px 12px;
 }
 
 strong {
@@ -168,6 +168,18 @@ body {
       margin-left: 0px;
     }
   }
+}
+
+.videoPlayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  transition: 500ms opacity;
+  display: flex;
+  z-index: 3;
 }
 
 .companies {

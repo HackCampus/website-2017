@@ -5,7 +5,7 @@
 <span class="name">Salim Hamid</span><br>
 <span class="role">Lead Technical Recruiter, Deliveroo</span>
 
-<a href="" class="button">Watch the video</a>
+<a href="https://www.youtube.com/watch?v=0liufzGmfWM" target="_blank" class="video button">Watch the Deliveroo video</a>
 </div>
 <div class="quote">
 
@@ -14,7 +14,7 @@
 <span class="name">Donovan Frew</span><br>
 <span class="role">CTO, Secret Escapes</span>
 
-<a href="" class="button">Watch the video</a>
+<a href="https://www.youtube.com/watch?v=M1Lc8rrRSoI" target="_blank" class="video button">Watch the Secret Escapes video</a>
 
 </div>
 <div class="quote">
@@ -24,5 +24,5 @@
 <span class="name">Andy Dawkins</span><br>
 <span class="role">Head of Technology, MyOptique</span>
 
-<a href="" class="button">Watch the video</a>
+<a href="https://www.youtube.com/watch?v=j77_qYwsfxc" target="_blank" class="video button">Watch the MyOptique video</a>
 </div>

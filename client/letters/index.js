@@ -1,12 +1,10 @@
 const addThrottledEventListener = require('../addThrottledEventListener')
+const getScrollTop = require('../getScrollTop')
+
 const letterPixels = require('./pixels')
 
 function randomItem (array) {
   return array[Math.round(Math.random() * (array.length - 1))]
-}
-
-function getScrollTop () {
-  return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
 }
 
 function closestIndex (haystack, needle) {

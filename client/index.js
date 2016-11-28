@@ -1,9 +1,55 @@
 const addThrottledEventListener = require('./addThrottledEventListener')
+const getScrollTop = require('./getScrollTop')
 const titles = require('./titles')
 const transitions = require('./transitions')
 
 function $ (selector) {
   return [].slice.call(document.querySelectorAll(selector))
+}
+
+function heroVideo () {
+  const container = document.querySelector('.videoContainer')
+  const videoId = container.dataset.videoId
+  const video = document.createElement('div')
+  video.id = 'heroVideo'
+  container.appendChild(video)
+
+  const youtubeScript = document.createElement('script')
+  youtubeScript.src = 'https://www.youtube.com/iframe_api'
+  const firstScript = document.getElementsByTagName('script')[0]
+  firstScript.parentNode.insertBefore(youtubeScript, firstScript)
+
+  window.onYouTubeIframeAPIReady = function () {
+    new YT.Player('heroVideo', {
+      videoId,
+      width: '100%',
+      height: '100%',
+      playerVars: {
+        controls: 1,
+        modestbranding: 1,
+        showinfo: 0,
+      },
+      events: {
+        onReady: function (event) {
+          playWhenVisible(event.target)
+        }
+      }
+    })
+  }
+
+  function playWhenVisible (player) {
+    const video = player.getIframe()
+    const topMargin = 70 // FIXME
+    addThrottledEventListener('scroll', e => {
+      const {top, bottom} = video.getBoundingClientRect()
+      const visible = top <= topMargin && bottom > 0
+      if (visible) {
+        player.playVideo()
+      } else {
+        player.pauseVideo()
+      }
+    })
+  }
 }
 
 function videos () {
@@ -44,6 +90,7 @@ function main () {
   const panels = $('.panel')
   transitions(panels)
   titles(panels)
+  heroVideo()
   videos()
 }
 document.addEventListener('DOMContentLoaded', main)

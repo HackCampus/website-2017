@@ -95,7 +95,7 @@ gulp.task('clean', (done) => {
 gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
-    gulp.watch(local('pages', '**', '*.js'), gulp.parallel('html')),
+    gulp.watch(local('**', '*.js'), gulp.parallel('html')),
     gulp.watch(local('pages', '**', '*.md'), gulp.parallel('html')),
     gulp.watch(local('client', '**', '*.js'), gulp.parallel('client')),
     gulp.watch(local('images', '**', '*'), gulp.parallel('images')),

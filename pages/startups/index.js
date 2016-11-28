@@ -1,9 +1,9 @@
-const {textSection, vimeoPlayer} = require('../../partials')
+const {heroVideo, textSection} = require('../../partials')
 const content = require('../content')
 
 module.exports =
 `${textSection('hero', 'HACKCAMPUS', 'orange', content('startups/hero.md'))}
-${vimeoPlayer('mainVideo', '192979531')}
+${heroVideo('heroVideo', 'M1Lc8rrRSoI')}
 ${textSection('testimonials', 'TESTIMONIALS', 'orange', content('startups/testimonials.md'))}
 ${textSection('companies', 'COMPANIES', 'white', content('startups/companies.md'))}
 ${textSection('process', 'THE PROCESS', 'orange', content('startups/process.md'))}

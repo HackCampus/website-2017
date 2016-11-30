@@ -26,21 +26,32 @@ function rerequire (module) {
 
 const local = (...paths) => path.join(__dirname, ...paths)
 
-gulp.task('html', done => {
-  try {
-    const template = rerequire('./template')
-    const startups = rerequire('./pages/startups')
-    return file('index.html', template(startups), {src: true})
-      .pipe(gulp.dest(local('build')))
-  } catch (e) {
-    notifier.notify({
-      title: 'hackcampus',
-      message: e.message,
-    })
-    console.log(e)
-    done()
+function renderPage (templatePath, pagePath, outPath) {
+  return done => {
+    try {
+      const template = rerequire(`./pages/${templatePath}`)
+      const page = rerequire(`./pages/${pagePath}`)
+      const renderedPage = template(page)
+      return file(outPath, renderedPage, {src: true})
+        .pipe(gulp.dest(local('build')))
+    } catch (e) {
+      notifier.notify({
+        title: 'hackcampus',
+        message: e.message,
+      })
+      console.log(e)
+      done()
+    }
   }
-})
+}
+
+gulp.task('startups', renderPage('landingPage', 'startups', 'startups.html'))
+gulp.task('students', renderPage('landingPage', 'students', 'students.html'))
+
+gulp.task('pages', gulp.parallel(
+  'startups',
+  'students'
+))
 
 gulp.task('styles', () =>
   gulp.src(local('styles', '*.css'))
@@ -95,8 +106,8 @@ gulp.task('clean', (done) => {
 gulp.task('watch', () => {
   const watchers = [
     gulp.watch(local('styles', '*.css'), gulp.parallel('styles')),
-    gulp.watch(local('**', '*.js'), gulp.parallel('html')),
-    gulp.watch(local('pages', '**', '*.md'), gulp.parallel('html')),
+    gulp.watch(local('**', '*.js'), gulp.parallel('pages')),
+    gulp.watch(local('pages', '**', '*.md'), gulp.parallel('pages')),
     gulp.watch(local('client', '**', '*.js'), gulp.parallel('client')),
     gulp.watch(local('images', '**', '*'), gulp.parallel('images')),
   ]
@@ -119,7 +130,7 @@ gulp.task('livereload', () => {
   server.watch(local('build'))
 })
 
-gulp.task('build', gulp.parallel('html', 'styles', 'images', 'client'))
+gulp.task('build', gulp.parallel('pages', 'styles', 'images', 'client'))
 
 gulp.task('local-dev', gulp.parallel('watch', 'serve', 'livereload'))
 

@@ -12,7 +12,7 @@ Deploys to the https://github.com/HackCampus/hackcampus.github.io repo.
 
 ## TODO
 
-- [ ] replace placeholder video
+- [ ] make videos public & add descriptions
 - [ ] set up domain
 - [ ] Google Analytics
 - [ ] improve lagginess by copying element rather than creating fake element

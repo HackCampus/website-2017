@@ -19,6 +19,9 @@ function heroVideo () {
   const firstScript = document.getElementsByTagName('script')[0]
   firstScript.parentNode.insertBefore(youtubeScript, firstScript)
 
+  const fullVolume = 100
+
+  let preloaded = false
   window.onYouTubeIframeAPIReady = function () {
     new YT.Player('heroVideo', {
       videoId,
@@ -31,7 +34,18 @@ function heroVideo () {
       },
       events: {
         onReady: function (event) {
-          playWhenVisible(event.target)
+          const player = event.target
+          player.setVolume(0)
+          player.playVideo() // preload
+          playWhenVisible(player)
+        },
+        onStateChange: function (event) {
+          const player = event.target
+          if (!preloaded && event.data === YT.PlayerState.PLAYING) {
+            player.pauseVideo()
+            player.setVolume(fullVolume)
+            preloaded = true
+          }
         }
       }
     })

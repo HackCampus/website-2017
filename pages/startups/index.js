@@ -1,10 +1,12 @@
-const {heroVideo, textSection} = require('../../partials')
-const content = require('../content')
+const md = require('../markdown')
+const companies = require('../shared/companies')
+const heroVideo = require('../shared/heroVideo')
+const textSection = require('../textSection')
 
 module.exports =
-`${textSection('hero', 'HACKCAMPUS', 'orange', content('startups/hero.md'))}
-${heroVideo('heroVideo', '0f0RXeZUM4k')}
-${textSection('testimonials', 'TESTIMONIALS', 'orange', content('startups/testimonials.md'))}
-${textSection('companies', 'COMPANIES', 'white', content('startups/companies.md'))}
-${textSection('pitch', 'WHY HACKCAMPUS', 'orange', content('startups/pitch.md'))}
-${textSection('nextSteps', 'NEXT STEPS', 'black', content('startups/nextSteps.md'))}`
+`${textSection('hero', 'HACKCAMPUS', 'orange', md('startups/hero.md'))}
+${heroVideo}
+${textSection('testimonials', 'TESTIMONIALS', 'orange', md('startups/testimonials.md'))}
+${companies}
+${textSection('pitch', 'WHY HACKCAMPUS', 'orange', md('startups/pitch.md'))}
+${textSection('nextSteps', 'NEXT STEPS', 'black', md('startups/nextSteps.md'))}`

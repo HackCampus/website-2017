@@ -30,6 +30,7 @@
     "gulp-cli": "github:gulpjs/gulp-cli",
     "gulp-file": "^0.3.0",
     "gulp-postcss": "^6.2.0",
+    "html-minifier": "^3.2.3",
     "livereload": "^0.6.0",
     "lost": "^7.1.0",
     "markdown-it": "^8.1.0",

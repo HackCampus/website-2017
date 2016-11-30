@@ -12,6 +12,6 @@ const companies = [
   'viagogo',
 ]
 
-const content = `<div class="companies">${companies.map(company => `<div class="company"><img src="images/${company}.jpg" /></div>`).join('')}</div>`
+const content = `<div class="companies">${companies.map(company => `<div class="company"><img src="/images/${company}.jpg" /></div>`).join('')}</div>`
 
 module.exports = textSection('companies', 'COMPANIES', 'white', content)

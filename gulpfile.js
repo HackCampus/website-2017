@@ -7,6 +7,7 @@ const ecstatic = require('ecstatic')
 const exorcist = require('exorcist')
 const file = require('gulp-file')
 const gulp = require('gulp')
+const minifyHtml = html => require('html-minifier').minify(html, {collapseWhitespace: true, conservativeCollapse: true})
 const http = require('http')
 const livereload = require('livereload')
 const lost = require('lost')
@@ -32,7 +33,8 @@ function renderPage (templatePath, pagePath, outPath) {
       const template = rerequire(`./pages/${templatePath}`)
       const page = rerequire(`./pages/${pagePath}`)
       const renderedPage = template(page)
-      return file(outPath, renderedPage, {src: true})
+      const minifiedPage = minifyHtml(renderedPage)
+      return file(outPath, minifiedPage, {src: true})
         .pipe(gulp.dest(local('build')))
     } catch (e) {
       notifier.notify({

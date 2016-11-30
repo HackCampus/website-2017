@@ -1,6 +1,4 @@
 $orange: rgb(255, 150, 0);
-$pixelSize: 4px;
-$navbarHeight: calc($pixelSize * 9);
 $small: 544px;
 $medium: 768px;
 $large: 992px;
@@ -86,7 +84,7 @@ body {
 }
 
 .content {
-  lost-center: 980px;
+  lost-center: 768px;
 }
 
 .titles {
@@ -137,10 +135,6 @@ body {
 }
 
 .testimonials {
-  .content {
-    lost-center: 768px;
-  }
-
   .role {
     font-weight: 400;
   }
@@ -199,6 +193,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   .content {
+    max-width: 980px;
     display: block;
     margin-top: auto;
     margin-bottom: auto;
@@ -210,4 +205,10 @@ body {
   width: 100%;
   max-width: 171px;
   margin: auto;
+}
+
+.pitch {
+  h2 {
+    margin-top: 4em;
+  }
 }

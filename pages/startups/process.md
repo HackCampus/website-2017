@@ -8,7 +8,7 @@ Additionally, students are asked to assign themselves scores on a wide range of 
 
 We gather every company's requirements regarding technologies, skillset and diversity.
 
-Based on the data we receive from students, and the specific requirements of each company, we make sure that you only speak to candidates that are suited for your role.
+Based on the data we receive from students, and the specific requirements of each company, we make sure that you only speak to candidates that are suited to your role.
 
 ## 3. You interview the candidates.
 
@@ -16,6 +16,4 @@ We aim to narrow down our matches to 3-4 candidates per role. You will receive a
 
 We suggest that every company performs their own technical & cultural screening, to ensure that there is definitely a fit for each role.
 
-## 4. You make an offer.
-
-If you would like to take on the candidate, we will
+## 4. We take care of the interns' accommodation.

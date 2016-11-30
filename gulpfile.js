@@ -7,7 +7,10 @@ const ecstatic = require('ecstatic')
 const exorcist = require('exorcist')
 const file = require('gulp-file')
 const gulp = require('gulp')
-const minifyHtml = html => require('html-minifier').minify(html, {collapseWhitespace: true, conservativeCollapse: true})
+const minifyHtml = html => require('html-minifier').minify(html, {
+  collapseWhitespace: true,
+  conservativeCollapse: true
+})
 const http = require('http')
 const livereload = require('livereload')
 const lost = require('lost')
@@ -48,10 +51,12 @@ function renderPage (templatePath, pagePath, outPath) {
 }
 
 gulp.task('startups', renderPage('landingPage', 'startups', 'startups.html'))
+gulp.task('startupsFaq', renderPage('faqPage', 'startups/faq', 'startups/faq.html'))
 gulp.task('students', renderPage('landingPage', 'students', 'students.html'))
 
 gulp.task('pages', gulp.parallel(
   'startups',
+  'startupsFaq',
   'students'
 ))
 
@@ -75,7 +80,7 @@ gulp.task('client', done => {
   return browserify({
     entries: [local('client', 'index.js')],
     // fullPaths: true, // for disc
-    debug: true,
+    // debug: true,
   })
   .transform(babelify, {presets: ['es2015']})
   // .transform(uglifyify, {global: true})
@@ -88,7 +93,7 @@ gulp.task('client', done => {
     console.log(e)
     done()
   })
-  .pipe(exorcist(local('build', 'hc.js.map')))
+  // .pipe(exorcist(local('build', 'hc.js.map')))
   .pipe(source('hc.js'))
   .pipe(gulp.dest(local('build')))
   .on('end', () => {

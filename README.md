@@ -15,4 +15,5 @@ Deploys to the https://github.com/HackCampus/hackcampus.github.io repo.
 - [ ] make videos public & add descriptions
 - [ ] set up domain
 - [ ] Google Analytics
-- [ ] improve lagginess by copying element rather than creating fake element
+- [ ] improve lagginess by copying element rather than creating fake element?
+- [ ] figure out why browserify puts some stuff in the bundle twice (eg. letter data)

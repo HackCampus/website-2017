@@ -1,4 +1,4 @@
-const md = require('../markdown')
+const md = require('../markdownFile')
 const companies = require('../shared/companies')
 const heroVideo = require('../shared/heroVideo')
 const textSection = require('../textSection')

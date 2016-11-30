@@ -4,6 +4,6 @@ If you have any questions, or special requirements, reach us at [contact@hackcam
 
 <br>
 
-## Further questions? [Read our FAQ](TODO).
+## Further questions? <a href="/startups/faq" target="_blank">Read our FAQ</a>.
 
 Are you a student looking to find an internship? [Click here to find out more](/students).

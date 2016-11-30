@@ -31,6 +31,14 @@ p {
   lost-offset: -1/12;
 }
 
+ul {
+  lost-offset: -1/12;
+}
+
+li {
+  margin-bottom: 1em;
+}
+
 a {
   color: inherit;
   text-decoration: none;

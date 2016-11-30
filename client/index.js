@@ -106,5 +106,6 @@ function main () {
   titles(panels)
   heroVideo()
   videos()
+  console.log('%cHackCampus is open source! :) Check it out here: https://github.com/hackcampus/website', 'color:#ff9600;')
 }
 document.addEventListener('DOMContentLoaded', main)

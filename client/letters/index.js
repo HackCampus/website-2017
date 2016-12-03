@@ -72,7 +72,12 @@ class Letters {
     const ratio = isLastTitle ? 0 : unlerp(this.offsets[i], this.offsets[i + 1], scrollTop)
 
     const getTitleState = title => {
-      if (title == null) return
+      if (title == null) {
+        return {
+          pixels: letterPixels[' '],
+          color: 'none',
+        }
+      }
       const {text, color} = title
       let pixels = []
       for (let i = 0; i < this.maxLength; i++) {
@@ -158,41 +163,24 @@ class Letters {
     }
 
     const {i, ratio, current, next} = this.state
+
     const {color: currentColor, pixels: currentPixels} = current
+    const {color: nextColor, pixels: nextPixels} = next
 
     const nextProbability = Math.pow(ratio, 6)
 
-    if (ratio === 0) {
-      let color = currentColor
-      let pixels = currentPixels
-      let offset = 0
-      for (let letter of pixels) {
-        let p = 0
-        for (let pixel of letter) {
-          if (pixel === '1') {
-            const x = p % letterSize
-            const y = ~~(p / letterSize)
-            drawPixel(offset + x, y, color)
-          }
-          p++
-        }
-        offset += letterSize
-      }
-    } else {
-      const {color: nextColor, pixels: nextPixels} = next
-      for (let i = 0; i < this.maxLength; i++) {
-        const currentLetter = currentPixels[i]
-        const nextLetter = nextPixels[i]
-        for (let p = 0; p < currentLetter.length; p++) {
-          const displayNext = Math.random() < nextProbability
-          const color = displayNext ? nextColor : currentColor
-          const pixel = displayNext ? nextLetter[p] : currentLetter[p]
-          if (pixel === '1') {
-            const x = p % letterSize
-            const y = ~~(p / letterSize)
-            const offset = i * letterSize
-            drawPixel(offset + x, y, color)
-          }
+    for (let i = 0; i < this.maxLength; i++) {
+      const currentLetter = currentPixels[i]
+      const nextLetter = nextPixels[i]
+      for (let p = 0; p < currentLetter.length; p++) {
+        const displayNext = ratio !== 0 && Math.random() < nextProbability
+        const color = displayNext ? nextColor : currentColor
+        const pixel = displayNext ? nextLetter[p] : currentLetter[p]
+        if (pixel === '1') {
+          const x = p % letterSize
+          const y = ~~(p / letterSize)
+          const offset = i * letterSize
+          drawPixel(offset + x, y, color)
         }
       }
     }

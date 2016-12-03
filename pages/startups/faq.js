@@ -65,7 +65,7 @@ You can always email us at contact@hackcampus.io.
 
 ## Where do I sign up?
 
-[Apply here](${facts.companyApplicationFormUrl}) to take on interns in the programme.
+[Apply here](${facts.companyApplicationUrl}) to take on interns in the programme.
 `
 
 module.exports = renderMarkdown(faq)

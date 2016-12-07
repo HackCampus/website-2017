@@ -50,12 +50,14 @@ function renderPage (templatePath, pagePath, outPath) {
   }
 }
 
+gulp.task('home', renderPage('landingPage', 'home', 'index.html'))
 gulp.task('startups', renderPage('landingPage', 'startups', 'startups.html'))
 gulp.task('startupsFaq', renderPage('faqPage', 'startups/faq', 'startups/faq.html'))
 gulp.task('students', renderPage('landingPage', 'students', 'students.html'))
 gulp.task('studentsFaq', renderPage('faqPage', 'students/faq', 'students/faq.html'))
 
 gulp.task('pages', gulp.parallel(
+  // 'home',
   'startups',
   'startupsFaq',
   'students',

@@ -1,4 +1,4 @@
-## Ready to work at a startup this summer? <a href="https://appy.hackcampus.io/" target="_blank">Apply here</a>.
+## Ready to work at a startup this summer? <a href="https://hackcampus-apply.herokuapp.com/" target="_blank">Apply here</a>.
 
 If you have any questions, or special requirements, reach us at [contact@hackcampus.io](mailto:contact@hackcampus.io).
 

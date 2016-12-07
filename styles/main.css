@@ -103,6 +103,12 @@ body {
   left: 20px;
 }
 
+@media screen and (width >= $medium) {
+  .twoColumn {
+    lost-column: 6/12;
+  }
+}
+
 /* Sections */
 
 .hero, .nextSteps {

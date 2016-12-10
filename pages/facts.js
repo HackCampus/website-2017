@@ -7,4 +7,6 @@ module.exports = {
   moveOutDate: '2nd September 2017',
   companyApplicationUrl: 'https://docs.google.com/a/hackcampus.io/forms/d/e/1FAIpQLSdBtFODXHpW1h9SbyGPKW5fETRoABvzRYzfVG1woVNck1OSNQ/viewform',
   studentApplicationUrl: 'https://hackcampus-apply.herokuapp.com/',
+  internSalary: '350',
+  programmeFee: '2500',
 }

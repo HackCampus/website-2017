@@ -54,7 +54,7 @@ It is always up to the companies to decide which interns they want to give offer
 
 ## Will I get paid?
 
-Yes! Your weekly salary will be £350, on top of your free accommodation.
+Yes! Your weekly salary will be £${facts.internSalary}, on top of your free accommodation.
 
 ## Where do I sign up?
 

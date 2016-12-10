@@ -46,8 +46,8 @@ During the internship, we expect your company to provide:
 
 ## What is the cost?
 
-We expect companies to pay every intern £400/week. This salary should be paid directly to the intern.
-Additionally, HackCampus will charge £2500 per intern, which covers the intern's accommodation for the summer.
+We expect companies to pay every intern £${facts.internSalary}/week. This salary should be paid directly to the intern.
+Additionally, HackCampus will charge £${facts.programmeFee} per intern, which covers the intern's accommodation for the summer.
 
 ## Can companies hire more than one intern?
 

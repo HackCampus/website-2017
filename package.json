@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "HackCampus website",
   "scripts": {
-    "develop": "./node_modules/.bin/gulp develop",
-    "deploy": "./node_modules/.bin/gh-pages --dist build --repo https://github.com/HackCampus/hackcampus.github.io.git --branch master --message \"Deployed from https://github.com/HackCampus/website\""
+    "develop": "gulp develop",
+    "deploy": "gh-pages --dist build --repo https://github.com/HackCampus/hackcampus.github.io.git --branch master --message \"Deployed from https://github.com/HackCampus/website\"",
+    "release": "gulp release && npm run deploy",
   },
   "repository": {
     "type": "git",

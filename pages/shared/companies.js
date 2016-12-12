@@ -12,6 +12,15 @@ const companies = [
   'viagogo',
 ]
 
-const content = `<div class="companies">${companies.map(company => `<div class="company"><img src="/images/${company}.jpg" /></div>`).join('')}</div>`
+const content =
+`<div class="partners">
+  <div class="support">
+    HackCampus is supported by
+    <div class="indexLogo"><img src="/images/indexventures.png" /></div>
+  </div>
+  <div class="companies">
+    ${companies.map(company => `<div class="company"><img src="/images/${company}.jpg" /></div>`).join('')}
+  </div>
+</div>`
 
-module.exports = textSection('companies', 'COMPANIES', 'white', content)
+module.exports = textSection('companies', 'PARTNERS', 'white', content)

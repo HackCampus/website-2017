@@ -202,6 +202,16 @@ body {
   z-index: 3;
 }
 
+.support {
+  text-align: center;
+  margin-bottom: 4em;
+}
+
+.indexLogo img {
+  margin-top: 1em;
+  max-width: 110px;
+}
+
 .companies {
   display: flex;
   flex-wrap: wrap;

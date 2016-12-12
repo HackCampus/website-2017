@@ -1,8 +1,13 @@
+const fonts = require('./fonts')
+const googleAnalytics = require('./googleAnalytics')
+const metaTags = require('./metaTags')
+
 module.exports = content =>
 `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    ${metaTags}
     <title>HackCampus</title>
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
@@ -10,7 +15,7 @@ module.exports = content =>
     <div class="titles"></div>
     ${content}
     <script src="/hc.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-    <script>WebFont.load({google:{families:['Roboto:300,700','Roboto Mono:300,400,700']}});</script>
+    ${fonts}
+    ${googleAnalytics}
   </body>
 </html>`

@@ -57,7 +57,7 @@ gulp.task('students', renderPage('landingPage', 'students', 'students.html'))
 gulp.task('studentsFaq', renderPage('faqPage', 'students/faq', 'students/faq.html'))
 
 gulp.task('pages', gulp.parallel(
-  // 'home',
+  'home',
   'startups',
   'startupsFaq',
   'students',

@@ -2,12 +2,11 @@ const fonts = require('./fonts')
 const googleAnalytics = require('./googleAnalytics')
 const metaTags = require('./metaTags')
 
-module.exports = content =>
+module.exports = (content, pagePath) =>
 `<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    ${metaTags}
+    ${metaTags({url: `https://hackcampus.github.io/${pagePath}`})}
     <title>HackCampus</title>
     <link rel="stylesheet" href="/styles/main.css" />
   </head>

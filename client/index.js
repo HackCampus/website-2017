@@ -9,6 +9,7 @@ function $ (selector) {
 
 function heroVideo () {
   const container = document.querySelector('.videoContainer')
+  if (!container) return
   const videoId = container.dataset.videoId
   const video = document.createElement('div')
   video.id = 'heroVideo'

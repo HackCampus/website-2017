@@ -35,7 +35,7 @@ function renderPage (templatePath, pagePath, outPath) {
     try {
       const template = rerequire(`./pages/${templatePath}`)
       const page = rerequire(`./pages/${pagePath}`)
-      const renderedPage = template(page)
+      const renderedPage = template(page, pagePath)
       const minifiedPage = minifyHtml(renderedPage)
       return file(outPath, minifiedPage, {src: true})
         .pipe(gulp.dest(local('build')))

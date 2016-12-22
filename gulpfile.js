@@ -52,18 +52,24 @@ function renderPage (templatePath, pagePath, outPath) {
 
 gulp.task('home', renderPage('landingPage', 'home', 'index.html'))
 gulp.task('startups', renderPage('landingPage', 'startups', 'startups.html'))
+gulp.task('startupsSlash', renderPage('landingPage', 'startups', 'startups/index.html'))
 gulp.task('startupsFaq', renderPage('faqPage', 'startups/faq', 'startups/faq.html'))
 gulp.task('students', renderPage('landingPage', 'students', 'students.html'))
+gulp.task('studentsSlash', renderPage('landingPage', 'students', 'students/index.html'))
 gulp.task('studentsFaq', renderPage('faqPage', 'students/faq', 'students/faq.html'))
 gulp.task('internship', renderPage('landingPage', 'students', 'internship.html'))
+gulp.task('internshipSlash', renderPage('landingPage', 'students', 'internship/index.html'))
 
 gulp.task('pages', gulp.parallel(
   'home',
   'startups',
+  'startupsSlash',
   'startupsFaq',
   'students',
+  'studentsSlash',
   'studentsFaq',
-  'internship'
+  'internship',
+  'internshipSlash'
 ))
 
 gulp.task('styles', () =>

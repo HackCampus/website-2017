@@ -1,6 +1,6 @@
 module.exports = {
   year: '2017',
-  studentApplicationUrl: '8th of January',
+  studentApplicationDeadline: '31st of January',
   workStartDate: '26th June 2017',
   workEndDate: '1st September 2017',
   moveInDate: '25th June 2017',
